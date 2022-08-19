@@ -99,3 +99,5 @@ csolaris = Admin
 devilsaaron = Admin
 shadow_quill = Admin
 cosmicscientist = Admin
+rikuthekiller = Admin
+jimmyl = Admin
