@@ -360,12 +360,12 @@
 /obj/item/explosive/grenade/gravity/prime()
 	new /obj/effect/overlay/temp/emp_pulse(loc)
 	playsound(loc, 'sound/effects/EMPulse.ogg', 50)
-	for(var/atom/movable/victim in view(5, loc)) //Throws everything except dead bodies and xenos.
+	for(var/atom/movable/victim in view(8, loc)) //Throws everything except dead bodies and xenos.
 		if(victim.anchored || isxeno(victim))
 			continue
 		if(isliving(victim))
 			var/mob/living/livingtarget = victim
 			if(livingtarget.stat == DEAD)
 				continue
-		victim.throw_at(src, 7, 2, null, TRUE)
+		victim.throw_at(src, 10, 2, null, TRUE)
 	qdel(src)
