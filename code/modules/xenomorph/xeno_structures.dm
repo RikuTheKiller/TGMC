@@ -803,6 +803,9 @@ TUNNEL
 /obj/structure/xeno/silo/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
 	. = ..()
 
+	if(resistance_flags & INDESTRUCTIBLE) //We still want to alert xenos if the silo somehow takes 0 damage
+		return
+
 	//We took damage, so it's time to start regenerating if we're not already processing
 	if(!CHECK_BITFIELD(datum_flags, DF_ISPROCESSING))
 		START_PROCESSING(SSslowprocess, src)
