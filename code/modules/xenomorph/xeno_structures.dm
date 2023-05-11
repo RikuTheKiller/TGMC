@@ -23,6 +23,11 @@
 		GLOB.xeno_critical_structures -= src
 	return ..()
 
+/obj/structure/xeno/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
+	. = ..()
+	if(get_area(src).area_flags & XENO_BASE)
+		return FALSE
+
 /obj/structure/xeno/ex_act(severity)
 	switch(severity)
 		if(EXPLODE_DEVASTATE)
@@ -720,10 +725,6 @@ TUNNEL
 	COOLDOWN_DECLARE(silo_damage_alert_cooldown)
 	COOLDOWN_DECLARE(silo_proxy_alert_cooldown)
 
-/obj/structure/xeno/silo/indestructible
-	desc = "A slimy, oozy resin bed filled with foul-looking egg-like ...things. This one seems sturdier than usual."
-	resistance_flags = UNACIDABLE | INDESTRUCTIBLE
-
 /obj/structure/xeno/silo/Initialize()
 	. = ..()
 	center_turf = get_step(src, NORTHEAST)
@@ -761,8 +762,6 @@ TUNNEL
 		var/obj/structure/xeno/tunnel/newt = new(tunnel_turf, hivenumber)
 		newt.tunnel_desc = "[AREACOORD_NO_Z(newt)]"
 		newt.name += " [name]"
-		if(resistance_flags & INDESTRUCTIBLE)
-			newt.resistance_flags |= INDESTRUCTIBLE
 
 /obj/structure/xeno/silo/obj_destruction(damage_amount, damage_type, damage_flag)
 	if(GLOB.hive_datums[hivenumber])
@@ -803,7 +802,7 @@ TUNNEL
 /obj/structure/xeno/silo/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
 	. = ..()
 
-	if(resistance_flags & INDESTRUCTIBLE) //We still want to alert xenos if the silo somehow takes 0 damage
+	if(get_area(src).area_flags & XENO_BASE)
 		return
 
 	//We took damage, so it's time to start regenerating if we're not already processing
@@ -1213,10 +1212,6 @@ TUNNEL
 	///Radius (in tiles) of the pheromones given by this tower.
 	var/aura_radius = 32
 
-/obj/structure/xeno/pherotower/indestructible
-	desc = "A resin formation that looks like a small pillar. A faint, weird smell can be perceived from it. This one seems sturdier than usual."
-	resistance_flags = UNACIDABLE | INDESTRUCTIBLE
-
 /obj/structure/xeno/pherotower/Initialize(mapload)
 	. = ..()
 	SSminimaps.add_marker(src, z, MINIMAP_FLAG_XENO, "phero")
@@ -1307,6 +1302,10 @@ TUNNEL
 
 /obj/structure/xeno/spawner/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
 	. = ..()
+
+	if(get_area(src).area_flags & XENO_BASE)
+		return
+
 	spawner_damage_alert()
 
 ///Alert if spawner is receiving damage

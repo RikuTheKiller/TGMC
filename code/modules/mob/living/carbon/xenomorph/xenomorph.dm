@@ -128,6 +128,11 @@
 /mob/living/carbon/xenomorph/set_armor_datum()
 	return //Handled in set_datum()
 
+/mob/living/carbon/xenomorph/apply_damage(damage, damagetype, def_zone, blocked, sharp, edge, updating_health, penetration)
+	. = ..()
+
+	if(get_area(src).area_flags & XENO_BASE)
+		return FALSE
 
 /mob/living/carbon/xenomorph/proc/generate_nicknumber()
 	//We don't have a nicknumber yet, assign one to stick with us

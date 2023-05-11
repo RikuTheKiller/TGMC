@@ -53,6 +53,11 @@
 	if(CHECK_BITFIELD(S.smoke_traits, SMOKE_BLISTERING))
 		take_damage(rand(2, 20) * 0.1)
 
+/obj/alien/take_damage(damage_amount, damage_type, damage_flag, effects, attack_dir, armour_penetration)
+	. = ..()
+	if(get_area(src).area_flags & XENO_BASE)
+		return FALSE
+
 /*
 * Resin
 */
