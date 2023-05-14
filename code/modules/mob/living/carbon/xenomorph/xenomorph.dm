@@ -136,7 +136,8 @@
 /mob/living/carbon/xenomorph/apply_damage(damage, damagetype, def_zone, blocked, sharp, edge, updating_health, penetration)
 	. = ..()
 
-	if(get_area(src).area_flags & XENO_BASE)
+	var/area/area = get_area(src)
+	if(area.flags_area & XENO_BASE)
 		return FALSE
 
 /mob/living/carbon/xenomorph/proc/generate_nicknumber()

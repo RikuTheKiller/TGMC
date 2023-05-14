@@ -28,7 +28,9 @@
 
 /obj/structure/xeno/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
 	. = ..()
-	if(get_area(src).area_flags & XENO_BASE)
+
+	var/area/area = get_area(src)
+	if(area.flags_area & XENO_BASE)
 		return FALSE
 
 /obj/structure/xeno/ex_act(severity)
@@ -805,8 +807,9 @@ TUNNEL
 /obj/structure/xeno/silo/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
 	. = ..()
 
-	if(get_area(src).area_flags & XENO_BASE)
-		return
+	var/area/area = get_area(src)
+	if(area.flags_area & XENO_BASE)
+		return FALSE
 
 	//We took damage, so it's time to start regenerating if we're not already processing
 	if(!CHECK_BITFIELD(datum_flags, DF_ISPROCESSING))
@@ -1307,8 +1310,9 @@ TUNNEL
 /obj/structure/xeno/spawner/take_damage(damage_amount, damage_type, damage_flag, sound_effect, attack_dir, armour_penetration)
 	. = ..()
 
-	if(get_area(src).area_flags & XENO_BASE)
-		return
+	var/area/area = get_area(src)
+	if(area.flags_area & XENO_BASE)
+		return FALSE
 
 	spawner_damage_alert()
 
